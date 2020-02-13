@@ -37,7 +37,7 @@ class DelivererController {
             }
 
             const userExists = await Deliverer.findOne({
-                where: { email: req.body.email, deleted_at: null },
+                where: { email: req.body.email },
             });
 
             if (userExists) {
@@ -49,7 +49,6 @@ class DelivererController {
             const { id } = await Deliverer.create(req.body);
 
             const createdDeliverer = await Deliverer.findByPk(id, {
-                where: { deleted_at: null },
                 attributes: ['id', 'name', 'email', 'avatar_id'],
                 include: [
                     {
@@ -71,7 +70,6 @@ class DelivererController {
             const { id } = req.params;
 
             const deliverer = await Deliverer.findByPk(id, {
-                where: { deleted_at: null },
                 attributes: ['id', 'name', 'email', 'avatar_id'],
                 include: [
                     {
@@ -106,9 +104,7 @@ class DelivererController {
             const { email } = req.body;
             const { id: passedId } = req.params;
 
-            const deliverer = await Deliverer.findByPk(passedId, {
-                where: { deleted_at: null },
-            });
+            const deliverer = await Deliverer.findByPk(passedId);
 
             if (!deliverer)
                 return res.status(401).json({ error: 'Deliverer not found' });
@@ -128,7 +124,6 @@ class DelivererController {
             const { id } = await deliverer.update(req.body);
 
             const updatedDeliverer = await Deliverer.findByPk(id, {
-                where: { deleted_at: null },
                 attributes: ['id', 'name', 'email', 'avatar_id'],
                 include: [
                     {
@@ -149,9 +144,7 @@ class DelivererController {
         try {
             const { id } = req.params;
 
-            const deliverer = await Deliverer.findByPk(id, {
-                where: { deleted_at: null },
-            });
+            const deliverer = await Deliverer.findByPk(id);
 
             if (!deliverer)
                 return res.status(401).json({ error: 'Deliverer not found' });
