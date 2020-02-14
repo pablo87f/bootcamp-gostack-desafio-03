@@ -29,6 +29,7 @@ class OrderCreationMail {
             subject: 'Nova Encomenda',
             template: 'order-creation',
             context: {
+                product: order.product,
                 deliverer: order.deliverer.name,
                 recipient: recipientName,
                 address,
