@@ -4,3 +4,5 @@ yarn.lock
 !.gitkeep
 
 tmp/uploads/*.jpeg
+
+.env
