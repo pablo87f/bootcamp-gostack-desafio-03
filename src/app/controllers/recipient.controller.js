@@ -14,6 +14,7 @@ class RecipientController {
                     'state',
                     'city',
                     'zip_code',
+                    'street',
                 ],
             });
 
@@ -54,6 +55,7 @@ class RecipientController {
                 state,
                 city,
                 zip_code,
+                street,
             } = await Recipient.create(req.body);
 
             return res.json({
@@ -64,6 +66,7 @@ class RecipientController {
                 state,
                 city,
                 zip_code,
+                street,
             });
         } catch (ex) {
             return res.status(500).send();
@@ -80,6 +83,7 @@ class RecipientController {
                     'id',
                     'name',
                     'number',
+                    'street',
                     'complement',
                     'state',
                     'city',
@@ -118,6 +122,7 @@ class RecipientController {
                 state,
                 city,
                 zip_code,
+                street,
             } = req.body;
 
             const { id } = req.params;
@@ -152,6 +157,7 @@ class RecipientController {
                 state,
                 city,
                 zip_code,
+                street,
             });
         } catch (ex) {
             return res.status(500).send();

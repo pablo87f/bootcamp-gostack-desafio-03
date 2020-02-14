@@ -4,6 +4,9 @@ import File from '../models/file.model';
 import Recipient from '../models/recipient.model';
 import Deliverer from '../models/deliverer.model';
 
+import queue from '../../lib/queue';
+import OrderCreationMailJob from '../jobs/order-creation-mail.job';
+
 class OrderController {
     async index(req, res) {
         try {
@@ -23,7 +26,16 @@ class OrderController {
                     {
                         model: Recipient,
                         as: 'recipient',
-                        attributes: ['id', 'name'],
+                        attributes: [
+                            'id',
+                            'name',
+                            'number',
+                            'street',
+                            'complement',
+                            'state',
+                            'city',
+                            'zip_code',
+                        ],
                     },
                 ],
             });
@@ -57,6 +69,46 @@ class OrderController {
                 return res.status(401).json({ error: 'Deliverer not found' });
 
             const { id } = await Order.create(req.body);
+
+            const order = await Order.findByPk(id, {
+                attributes: [
+                    'id',
+                    'product',
+                    'start_date',
+                    'end_date',
+                    'created_at',
+                ],
+                include: [
+                    {
+                        model: File,
+                        as: 'signature',
+                        attributes: ['name', 'path', 'url'],
+                    },
+                    {
+                        model: Deliverer,
+                        as: 'deliverer',
+                        attributes: ['id', 'email', 'name'],
+                    },
+                    {
+                        model: Recipient,
+                        as: 'recipient',
+                        attributes: [
+                            'id',
+                            'name',
+                            'number',
+                            'street',
+                            'complement',
+                            'state',
+                            'city',
+                            'zip_code',
+                        ],
+                    },
+                ],
+            });
+
+            await queue.add(OrderCreationMailJob.key, {
+                order,
+            });
 
             return res.json({ id, product, deliverer_id, recipient_id });
         } catch (ex) {
