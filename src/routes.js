@@ -8,6 +8,7 @@ import authMiddleware from './app/middlewares/auth.middleware';
 import FileController from './app/controllers/file.controller';
 import DelivererController from './app/controllers/deliverer.controller';
 import OrderController from './app/controllers/order.controller';
+import WithdrawalController from './app/controllers/withdrawal.controller';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -36,6 +37,8 @@ routes.post('/orders', OrderController.store);
 routes.get('/orders/:id', OrderController.show);
 routes.put('/orders/:id', OrderController.update);
 routes.delete('/orders/:id', OrderController.delete);
+
+routes.post('/orders/:id/withdrawal', WithdrawalController.store);
 
 routes.post('/files', upload.single('file'), FileController.store);
 

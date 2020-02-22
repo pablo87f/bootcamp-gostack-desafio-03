@@ -1,39 +1,65 @@
-class WithdrawalController {
-    async index(req, res) {
-        try {
-            return res.json({});
-        } catch (ex) {
-            return res.status(500).send();
-        }
-    }
+import { setSeconds, setMinutes, setHours, format } from 'date-fns';
+import Order from '../models/order.model';
+import File from '../models/file.model';
+import Deliverer from '../models/deliverer.model';
+import Recipient from '../models/recipient.model';
 
+class WithdrawalController {
     async store(req, res) {
         try {
-            return res.json({});
-        } catch (ex) {
-            return res.status(500).send();
-        }
-    }
+            const now = setSeconds(setMinutes(setHours(new Date(), 14), 0), 0);
+            const startLimitDate = setSeconds(
+                setMinutes(setHours(new Date(), 8), 0),
+                0
+            );
+            const endLimitDate = setSeconds(
+                setMinutes(setHours(new Date(), 18), 0),
+                0
+            );
+            if (now < startLimitDate || now > endLimitDate)
+                return res.status(401).json({
+                    error: `Withdrawals are only allowed between ${format(
+                        startLimitDate,
+                        'HH:mm'
+                    )} and ${format(endLimitDate, 'HH:mm')}`,
+                });
 
-    async show(req, res) {
-        try {
-            return res.json({});
-        } catch (ex) {
-            return res.status(500).send();
-        }
-    }
+            const { id } = req.params;
 
-    async update(req, res) {
-        try {
-            return res.json({});
-        } catch (ex) {
-            return res.status(500).send();
-        }
-    }
+            const order = await Order.findByPk(id, {
+                attributes: ['id', 'product', 'start_date', 'end_date'],
+                include: [
+                    {
+                        model: File,
+                        as: 'signature',
+                        attributes: ['name', 'path', 'url'],
+                    },
+                    {
+                        model: Deliverer,
+                        as: 'deliverer',
+                        attributes: ['id', 'email', 'name'],
+                    },
+                    {
+                        model: Recipient,
+                        as: 'recipient',
+                        attributes: ['id', 'name'],
+                    },
+                ],
+            });
 
-    async delete(req, res) {
-        try {
-            return res.json({});
+            if (!order)
+                return res.status(401).json({ error: 'Order not found' });
+
+            if (order.start_date)
+                return res
+                    .status(401)
+                    .json({ error: 'The order has already been withdrawn' });
+
+            order.start_date = now;
+
+            order.save();
+
+            return res.json(order);
         } catch (ex) {
             return res.status(500).send();
         }
