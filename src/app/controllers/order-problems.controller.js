@@ -5,7 +5,7 @@ import Recipient from '../models/recipient.model';
 import Order from '../models/order.model';
 import OrderProblem from '../models/order-problem.model';
 import queue from '../../lib/queue';
-import OrderCancellationMailJob from '../jobs/order-cancelation-mail.job';
+import OrderCancellationMailJob from '../jobs/order-cancellation-mail.job';
 
 class OrderProblemsController {
     async index(req, res) {
