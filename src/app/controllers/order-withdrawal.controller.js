@@ -4,10 +4,11 @@ import File from '../models/file.model';
 import Deliverer from '../models/deliverer.model';
 import Recipient from '../models/recipient.model';
 
-class WithdrawalController {
+class OrderWithdrawalController {
     async store(req, res) {
         try {
-            const now = setSeconds(setMinutes(setHours(new Date(), 14), 0), 0);
+            // const now = setSeconds(setMinutes(setHours(new Date(), 14), 0), 0);
+            const now = new Date();
             const startLimitDate = setSeconds(
                 setMinutes(setHours(new Date(), 8), 0),
                 0
@@ -66,4 +67,4 @@ class WithdrawalController {
     }
 }
 
-export default new WithdrawalController();
+export default new OrderWithdrawalController();
