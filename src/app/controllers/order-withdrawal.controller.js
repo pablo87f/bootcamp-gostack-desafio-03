@@ -1,8 +1,18 @@
-import { setSeconds, setMinutes, setHours, format } from 'date-fns';
+import { Op } from 'sequelize';
+import {
+    setSeconds,
+    setMinutes,
+    setHours,
+    format,
+    startOfDay,
+    endOfDay,
+} from 'date-fns';
 import Order from '../models/order.model';
 import File from '../models/file.model';
 import Deliverer from '../models/deliverer.model';
 import Recipient from '../models/recipient.model';
+
+const maxWithdrawalsPerDay = 5;
 
 class OrderWithdrawalController {
     async store(req, res) {
@@ -55,6 +65,28 @@ class OrderWithdrawalController {
                 return res
                     .status(401)
                     .json({ error: 'The order has already been withdrawn' });
+
+            const orderWithdrawnCount = await Order.count({
+                include: [
+                    {
+                        model: Deliverer,
+                        as: 'deliverer',
+                        attributes: ['id', 'email', 'name'],
+                        where: { id: order.deliverer.id },
+                    },
+                ],
+                where: {
+                    start_date: {
+                        [Op.between]: [startOfDay(now), endOfDay(now)],
+                    },
+                },
+            });
+
+            if (orderWithdrawnCount >= maxWithdrawalsPerDay) {
+                return res.status(401).json({
+                    error: `the maximum amount of withdrawals per day is ${maxWithdrawalsPerDay}`,
+                });
+            }
 
             order.start_date = now;
 
