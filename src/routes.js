@@ -12,6 +12,7 @@ import OrderWithdrawalController from './app/controllers/order-withdrawal.contro
 import AssignedOrdersController from './app/controllers/assigned-orders.controller';
 import DeliveredOrdersController from './app/controllers/delivered-orders.controller';
 import OrderDeliverController from './app/controllers/order-deliver.controller';
+import OrderProblemsController from './app/controllers/order-problems.controller';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -46,6 +47,10 @@ routes.delete('/orders/:id', OrderController.delete);
 
 routes.post('/orders/:id/withdrawal', OrderWithdrawalController.store);
 routes.post('/orders/:id/deliver', OrderDeliverController.store);
+
+routes.get('/orders/:id/problems', OrderProblemsController.index);
+routes.post('/orders/:id/problems', OrderProblemsController.store);
+routes.delete('/problem/:id/cancel-order', OrderProblemsController.delete);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
