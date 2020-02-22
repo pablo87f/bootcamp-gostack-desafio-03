@@ -1,7 +1,7 @@
-# Desafio 2: FastFeet, o início
+# Desafio 3: FastFeet, continuando a aplicação
 
-Projeto do desafio 02 proposto no curso 'Bootcamp - GoStack' da RocketSeat(https://github.com/Rocketseat/bootcamp-gostack-desafio-02)
-Uma API desenvolvida com Node.js para autenticar usuário admin e gerenciar a criação, atualização, listagem e exclusão de destinatários.
+Projeto do desafio 03 proposto no curso 'Bootcamp - GoStack' da RocketSeat(https://github.com/Rocketseat/bootcamp-gostack-desafio-03)
+Uma API desenvolvida com Node.js fazer a gestão das informações entregadores, destinatários e encomendas
 
 ## Iniciando
 
@@ -62,6 +62,13 @@ Executa o Prettier como uma regra do ESLint
 * [prettier](https://github.com/prettier/prettier) - Formatador de código
 * [sequelize-cli](https://github.com/sequelize/cli) - Interface de lina de comando do Sequelize
 * [sucrase](https://github.com/alangpierce/sucrase) - Compilador javascript
+* [bee-queue](https://github.com/bee-queue/bee-queue) - Uma fila de tarefas simples para o Node.js, apoiada pela Redis.
+* [date-fns](https://github.com/date-fns/date-fns) - Biblioteca JavaScript de utilitários de data
+* [dotenv](https://github.com/motdotla/dotenv) - Carrega as variáveis de ambiente do arquivo .env em projetos Node.js
+* [express-handlebars](https://github.com/ericf/express-handlebars) - Uma *view engine handlesbar* para express
+* [multer](https://github.com/expressjs/multer) - Middleware do Node.js. para manipular 'multipart/form-data'.
+* [nodemailer](https://github.com/nodemailer/nodemailer) - Biblioteca para envio de emails com Node.js
+* [nodemailer-express-handlebars](https://github.com/yads/nodemailer-express-handlebars) - Um plug-in para nodemailer que usa *express-handlebars view engine* para gerar emails
 
 ## Licença
 
