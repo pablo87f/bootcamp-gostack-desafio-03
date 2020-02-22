@@ -10,6 +10,7 @@ import DelivererController from './app/controllers/deliverer.controller';
 import OrderController from './app/controllers/order.controller';
 import WithdrawalController from './app/controllers/withdrawal.controller';
 import AssignedOrdersController from './app/controllers/assigned-orders.controller';
+import DeliveredOrdersController from './app/controllers/delivered-orders.controller';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -34,6 +35,7 @@ routes.put('/deliverers/:id', DelivererController.update);
 routes.delete('/deliverers/:id', DelivererController.delete);
 
 routes.get('/deliverers/:id/assigned-orders', AssignedOrdersController.index);
+routes.get('/deliverers/:id/delivered-orders', DeliveredOrdersController.index);
 
 routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
